@@ -1,4 +1,4 @@
-function HereWeGooo()
+function res = HereWeGooo(S)
 
 %Define variables
 cart_mass = 535;                        %kg, mass of cart no people
@@ -11,15 +11,16 @@ g = 9.81;       %m/s^2, acceleration due to gravity
 mu = 0.0009;    %coefficient of rolling resistance
 
 
-    function res = S_derivs(~,S)
-        s = S(1);   %current s (position)
-        sdot = S(2);%current sdot (velocity)
-        
-        
-        sdd = (((((m*(sdd*sin(s) - sdot^2*cos(s)))/(cos(s)*(1-mu)))*sin(s) - ((m*(sdd*sin(s) - sdot^2*cos(s)))/(cos(s)*(1-mu)))*mu*sin(s) - m*g)/m + sdot^2*sin(s)))/cos(s);
-        Fn = ((m*(sdd*sin(s) - sdot^2*cos(s)))/(cos(s)*(1-mu)));
+    %function res = S_derivs(~,S)
+s = S(1);   %current s (position)
+sdot = S(2);%current sdot (velocity)
 
 
+solve((((((m*(sdd*sin(s) - sdot^2*cos(s)))/(cos(s)*(1-mu)))*sin(s) - ((m*(sdd*sin(s) - sdot^2*cos(s)))/(cos(s)*(1-mu)))*mu*sin(s) - m*g)/m + sdot^2*sin(s)))/cos(s) - sdd, sdd)
+%sdd = (((((m*(sdd*sin(s) - sdot^2*cos(s)))/(cos(s)*(1-mu)))*sin(s) - ((m*(sdd*sin(s) - sdot^2*cos(s)))/(cos(s)*(1-mu)))*mu*sin(s) - m*g)/m + sdot^2*sin(s)))/cos(s);
+%Fn = ((m*(sdd*sin(s) - sdot^2*cos(s)))/(cos(s)*(1-mu)));
+%sdd = (Fn*sin(s) - Fn*mu*sin(s) - m*g)/m + sdot^2 * sin(s)
+res = sdd;
 
 
 
