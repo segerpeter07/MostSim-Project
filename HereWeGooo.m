@@ -19,20 +19,23 @@ mu = 0.0009;    %coefficient of rolling resistance
 %         sdd = (sdot^2*sin(s)-tan(s)*sdot*cos(s)-g)/(cos(s)-tan(s)*sin(s))
 %         sdd = ((-2*sdot^2*sin(s)*cos(s) - g*cos(s))/(cos(s)^2 + sin(s)^2));
 %         sdd=(sdot^2*sin(s)-tan(s)*sdot^2*cos(s)-g)/(cos(s)+tan(s)*sin(s));
-          sdd = -2*sdot^2*sin(s)*cos(s) - g*cos(s);
+%         sdd = (-2*sdot^2*sin(s)*cos(s) - g*cos(s));
+        sdd = - g*cos(s);
         res = [sdot; sdd];
     end
 
 %options = odeset('RelTol', 1e-10);
-[t,S] = ode45(@S_derivs, [0 20], [3*pi/2,0]);
+[t,S] = ode45(@S_derivs, [0 4], [pi/4,2]);
 
 Ss = S(:,1);
+%sdots = S(:,2);
 
-%plot(t,Ss)
+plot(t,Ss)
 rx = 100*cos(Ss);
 ry = 100*sin(Ss);
 
 comet(rx,ry)
+
 % sdd = ((((m*(sdd*sin(s) - sdot^2*cos(s)))/(cos(s)*(1-mu)))*sin(s) - ((m*(sdd*sin(s) - sdot^2*cos(s)))/(cos(s)*(1-mu)))*mu*sin(s) - m*g)/m + sdot^2 * sin(s) - sdd)
 
 
