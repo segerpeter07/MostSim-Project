@@ -6,12 +6,13 @@ person_mass = 100;                      %kg, mass of 1 person
 rolling_mass = cart_mass + person_mass; %kg, mass of person+cart
 m = rolling_mass;                       %ez pz
 
-R = 10;         %m, radius of the roller coaster loop
+R = 100;         %m, radius of the roller coaster loop
 g = 9.81;       %m/s^2, acceleration due to gravity
 mu = 0.0009;    %coefficient of rolling resistance
 
 
     function res = S_derivs(~,S)
+        
         s = S(1);   %current s (position)
         sdot = S(2);%current sdot (velocity)
 
@@ -19,20 +20,20 @@ mu = 0.0009;    %coefficient of rolling resistance
 %         sdd = (sdot^2*sin(s)-tan(s)*sdot*cos(s)-g)/(cos(s)-tan(s)*sin(s))
 %         sdd = ((-2*sdot^2*sin(s)*cos(s) - g*cos(s))/(cos(s)^2 + sin(s)^2));
 %         sdd=(sdot^2*sin(s)-tan(s)*sdot^2*cos(s)-g)/(cos(s)+tan(s)*sin(s));
-%         sdd = (-2*sdot^2*sin(s)*cos(s) - g*cos(s));
-        sdd = - g*cos(s);
+%         sdd = (-2*sdot^2*sin(s)*cos(s) - g*cos(s))
+        sdd = - g*cos(s)
         res = [sdot; sdd];
     end
 
-%options = odeset('RelTol', 1e-10);
-[t,S] = ode45(@S_derivs, [0 4], [pi/4,2]);
+options = odeset('RelTol', 1e-6);
+[t,S] = ode45(@S_derivs, [0 4], [pi/4,-2],options);
 
 Ss = S(:,1);
 %sdots = S(:,2);
 
-plot(t,Ss)
-rx = 100*cos(Ss);
-ry = 100*sin(Ss);
+% plot(t,Ss)
+rx = R*cos(Ss);
+ry = R*sin(Ss);
 
 comet(rx,ry)
 
