@@ -23,12 +23,19 @@ mu = 0.0009;    %coefficient of rolling resistance
 %<<<<<<< HEAD
 %         sdd = (-2*sdot^2*sin(s)*cos(s) - g*cos(s))
 %         sdd = - g*cos(s);
-        sdd=(m*sdot*cos(s)*(R*tan(s)-mu*R*tan(s))-m*sdot^2*sin(s)+m*g)/(m*sin(s)*(R*tan(s)-mu*R*tan(s))-m*cos(s))
+%           if sdd<10e-9
+%               sdd=0.000001;
+%           else
+%             sdd=(m*sdot*cos(s)*(R*tan(s)-mu*R*tan(s))-m*sdot^2*sin(s)+m*g)/(m*sin(s)*(R*tan(s)-mu*R*tan(s))-m*cos(s));
+%           end
+            
+%             sdd=(m*sdot^2*sin(s)-m*g-tan(s)*((1-mu)/(1+mu))*m*sdot^2*cos(s))/(m*cos(s)+m*sin(s)*tan(s)*((1-mu)/(1+mu)));
+            sdd=(-sdot^2*cos(s)*sin(s)-mu*sign(sdot)*sdot^2*sin(s)*cos(s)+m*sdot^2*sin(s)*cos(s)-m*g*cos(s)+mu*sign(sdot)*sdot^2*cos(s)*sin(s)-mu*sign(sdot)*m*g*cos(s))/((sin(s)^2+mu*sign(sdot)*sin(s)+m*
         res = [sdot; sdd];
     end
 
-options = odeset('RelTol', 1e-6);
-[t,S] = ode45(@S_derivs, [0 4], [pi/4,-2],options);
+% options = odeset('RelTol', 1e-6);
+% [t,S] = ode45(@S_derivs, [0 4], [pi/4,-2],options);
 %=======
 %         sdd = -2*sdot^2*sin(s)*cos(s) - g*cos(s);
 %         sdd=((m*sdot^2*cos(s))*(R*tan(s)-mu*R*tan(s))-m*sdot^2*sin(s)+m*g)/((m*sin(s))*(R*tan(s)-mu*R*tan(s))-m*cos(s));
@@ -36,8 +43,8 @@ options = odeset('RelTol', 1e-6);
 %         res = [sdot; sdd];
 %     end
 
-%options = odeset('RelTol', 1e-10);
-[t,S] = ode45(@S_derivs, [0 20000], [pi,0]);
+options = odeset('RelTol', 1e-10);
+[t,S] = ode45(@S_derivs, [0 20], [pi,0],options);
 %>>>>>>> origin/master
 
 Ss = S(:,1);
