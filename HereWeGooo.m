@@ -20,37 +20,43 @@ mu = 0.0009;    %coefficient of rolling resistance
 %         sdd = (sdot^2*sin(s)-tan(s)*sdot*cos(s)-g)/(cos(s)-tan(s)*sin(s))
 %         sdd = ((-2*sdot^2*sin(s)*cos(s) - g*cos(s))/(cos(s)^2 + sin(s)^2));
 %         sdd=(sdot^2*sin(s)-tan(s)*sdot^2*cos(s)-g)/(cos(s)+tan(s)*sin(s));
-<<<<<<< HEAD
+%<<<<<<< HEAD
 %         sdd = (-2*sdot^2*sin(s)*cos(s) - g*cos(s))
-        sdd = - g*cos(s)
+%         sdd = - g*cos(s);
+%           if sdd<10e-9
+%               sdd=0.000001;
+%           else
+%             sdd=(m*sdot*cos(s)*(R*tan(s)-mu*R*tan(s))-m*sdot^2*sin(s)+m*g)/(m*sin(s)*(R*tan(s)-mu*R*tan(s))-m*cos(s));
+%           end
+            sdd=(m*sdot^2*sin(s)-m*g-tan(s)*((1-mu)/(1+mu))*m*sdot^2*cos(s))/(m*cos(s)+m*sin(s)*tan(s)*((1-mu)/(1+mu)));
         res = [sdot; sdd];
     end
 
-options = odeset('RelTol', 1e-6);
-[t,S] = ode45(@S_derivs, [0 4], [pi/4,-2],options);
-=======
+% options = odeset('RelTol', 1e-6);
+% [t,S] = ode45(@S_derivs, [0 4], [pi/4,-2],options);
+%=======
 %         sdd = -2*sdot^2*sin(s)*cos(s) - g*cos(s);
-        sdd=((m*sdot^2*cos(s))*(R*tan(s)-mu*R*tan(s))-m*sdot^2*sin(s)+m*g)/((m*sin(s))*(R*tan(s)-mu*R*tan(s))-m*cos(s));
-          
-        res = [sdot; sdd];
-    end
+%         sdd=((m*sdot^2*cos(s))*(R*tan(s)-mu*R*tan(s))-m*sdot^2*sin(s)+m*g)/((m*sin(s))*(R*tan(s)-mu*R*tan(s))-m*cos(s));
+%           
+%         res = [sdot; sdd];
+%     end
 
-%options = odeset('RelTol', 1e-10);
-[t,S] = ode45(@S_derivs, [0 200], [pi,2]);
->>>>>>> origin/master
+options = odeset('RelTol', 1e-10);
+[t,S] = ode45(@S_derivs, [0 20], [pi,0],options);
+%>>>>>>> origin/master
 
 Ss = S(:,1);
 %sdots = S(:,2);
 
-<<<<<<< HEAD
+%<<<<<<< HEAD
 % plot(t,Ss)
-rx = R*cos(Ss);
-ry = R*sin(Ss);
-=======
-%plot(t,Ss)
+% rx = R*cos(Ss);
+% ry = R*sin(Ss);
+% %=======
+% %plot(t,Ss)
 rx = cos(Ss);
 ry = sin(Ss);
->>>>>>> origin/master
+%>>>>>>> origin/master
 
 comet(rx,ry)
 
