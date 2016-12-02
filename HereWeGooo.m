@@ -30,7 +30,7 @@ mu = 0.9009;    %coefficient of rolling resistance
 %           end
             
 %             sdd=(m*sdot^2*sin(s)-m*g-tan(s)*((1-mu)/(1+mu))*m*sdot^2*cos(s))/(m*cos(s)+m*sin(s)*tan(s)*((1-mu)/(1+mu)));
-            sdd=(-sdot^2*cos(s)*sin(s)-mu*sign(sdot)*sdot^2*sin(s)*cos(s)+m*sdot^2*sin(s)*cos(s)-m*g*cos(s)+mu*sign(sdot)*sdot^2*cos(s)*sin(s)-mu*sign(sdot)*m*g*cos(s))/((sin(s)^2)+mu*sign(sdot)*sin(s)+m*(cos(s)^2)+mu*sign(sdot)*(cos(s)^2));
+            sdd=(-sdot^2*cos(s)*sin(s)-mu*sign_test(sdot)*sdot^2*sin(s)*cos(s)+m*sdot^2*sin(s)*cos(s)-m*g*cos(s)+mu*sign_test(sdot)*sdot^2*cos(s)*sin(s)-mu*sign_test(sdot)*m*g*cos(s))/((sin(s)^2)+mu*sign_test(sdot)*sin(s)+m*(cos(s)^2)+mu*sign_test(sdot)*(cos(s)^2));
         res = [sdot; sdd];
     end
 
@@ -66,7 +66,16 @@ comet(rx,ry)
 
 
 
-
+    function res = sign_test(sdot)
+        if(sdot./abs(sdot)<=-0.00001)
+            y=-1;
+        elseif (sdot./abs(sdot)>=0.00001)
+            y=1;
+        else
+            y=-100000*(sdot./abs(sdot))+1;
+        end
+        res=y;
+    end
 
 
 end
