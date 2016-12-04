@@ -1,4 +1,4 @@
-function HereWeGooo()
+function HereWeGooo(R,V)
 
 %Define variables
 cart_mass = 535;                        %kg, mass of cart no people
@@ -6,7 +6,6 @@ person_mass = 100;                      %kg, mass of 1 person
 rolling_mass = cart_mass + person_mass; %kg, mass of person+cart
 m = rolling_mass;                       %ez pz
 
-R = 100;         %m, radius of the roller coaster loop
 g = 9.81;       %m/s^2, acceleration due to gravity
 mu = 0.9009;    %coefficient of rolling resistance
 
@@ -22,7 +21,7 @@ mu = 0.9009;    %coefficient of rolling resistance
 %         sdd=(sdot^2*sin(s)-tan(s)*sdot^2*cos(s)-g)/(cos(s)+tan(s)*sin(s));
 %<<<<<<< HEAD
 %         sdd = (-2*sdot^2*sin(s)*cos(s) - g*cos(s))
-%         sdd = - g*cos(s);
+        sdd = - g*R*cos(s);
 %           if sdd<10e-9
 %               sdd=0.000001;
 %           else
@@ -30,7 +29,7 @@ mu = 0.9009;    %coefficient of rolling resistance
 %           end
             
 %             sdd=(m*sdot^2*sin(s)-m*g-tan(s)*((1-mu)/(1+mu))*m*sdot^2*cos(s))/(m*cos(s)+m*sin(s)*tan(s)*((1-mu)/(1+mu)));
-            sdd=(-sdot^2*cos(s)*sin(s)-mu*sign_test(sdot)*sdot^2*sin(s)*cos(s)+m*sdot^2*sin(s)*cos(s)-m*g*cos(s)+mu*sign_test(sdot)*sdot^2*cos(s)*sin(s)-mu*sign_test(sdot)*m*g*cos(s))/((sin(s)^2)+mu*sign_test(sdot)*sin(s)+m*(cos(s)^2)+mu*sign_test(sdot)*(cos(s)^2));
+%             sdd=(-sdot^2*cos(s)*sin(s)-mu*sign_test(sdot)*sdot^2*sin(s)*cos(s)+m*sdot^2*sin(s)*cos(s)-m*g*cos(s)+mu*sign_test(sdot)*sdot^2*cos(s)*sin(s)-mu*sign_test(sdot)*m*g*cos(s))/((sin(s)^2)+mu*sign_test(sdot)*sin(s)+m*(cos(s)^2)+mu*sign_test(sdot)*(cos(s)^2));
         res = [sdot; sdd];
     end
 
@@ -44,7 +43,7 @@ mu = 0.9009;    %coefficient of rolling resistance
 %     end
 
 options = odeset('RelTol', 1e-10);
-[t,S] = ode45(@S_derivs, [0 5], [pi,4],options);
+[t,S] = ode45(@S_derivs, [0 5], [pi,V],options);
 %>>>>>>> origin/master
 
 Ss = S(:,1);
